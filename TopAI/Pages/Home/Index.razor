@@ -1,0 +1,80 @@
+﻿
+@using TopAI.Models
+@namespace TopAI.Pages.Home
+@page "/"
+
+<Layout>
+    <Sider Width="80" Style="overflow: auto;
+        height: 100vh ;
+        width: 50;
+        position: fixed;
+        left: 0" >
+        <Menu Theme="MenuTheme.Dark" Mode="MenuMode.Inline" DefaultSelectedKeys=(new[]{_selectKey}) OnMenuItemClicked="CheckMenu">
+            @foreach (var item in _menuMap)
+            {
+                <MenuItem Key="@(item.Key)">
+    
+                <Image Src="@(item.Value.Icon)" Width="30" Height="30" Preview="false"></Image>
+                </MenuItem>
+            }
+        </Menu>
+    </Sider>
+    <Sider Width="140" Style="overflow: auto;
+        height: 100vh ;
+        width: 1vh !important;
+        position: fixed;
+        left: 62px">
+        <h5 style="text-align:center;color:white">@(_route.Title)</h5>
+        <div class="row">
+            @foreach (var item in _route.Sections)
+            {
+                <div class="col-6" style="margin-top:20px">
+                    <div class="text-center"  draggable="true" @ondragstart="() => OnDragStart(item.Code)">
+                        <Image Src="@(item.ImageUrl)" Width="30" Height="30" Preview="false"></Image>
+                        <div style="color:white;font-size:9px">@(item.Name)</div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    </Sider>
+    <GridRow Wrap="false" Style=" position: fixed;left:203px">
+        <GridCol Flex=@("auto")>
+            
+                <div style="width:120vh;height:100vh" ondragover="event.preventDefault();" @ondragover:preventDefault @ondrop="OnDrop">
+                <CascadingValue Value="_blazorDiagram">
+                        <DiagramCanvas></DiagramCanvas>
+                    </CascadingValue>
+                </div>
+            
+        </GridCol>
+        <GridCol Flex=@("auto")>
+            <div style="width:50vh;background-color:palevioletred;height:100vh"></div>
+        </GridCol>
+
+    </GridRow>
+</Layout>
+
+
+
+<style>
+    #sider-style {
+        overflow: auto;
+        height: 100vh;
+        width: 10vh;
+        position: fixed;
+        left: 0;
+    }
+
+    #components-layout-demo-fixed-sider .logo {
+        height: 2px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 1px;
+        width: 1vh;
+    }
+
+    .site-layout .site-layout-background {
+        background: #fff;
+    }
+</style>
